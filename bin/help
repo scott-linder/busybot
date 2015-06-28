@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. lib/cmd.sh
+
+privmsg $chan "$nick: I am a shell of a bot. Commands: `ls bin/ | paste -s -d' '`"
