@@ -3,6 +3,7 @@
 opts='r'
 . lib/cmd.sh
 . lib/color.sh
+. lib/file.sh
 
 rainbow=0
 while true; do
@@ -12,9 +13,15 @@ while true; do
     esac
 done
 
-message="$*"
+message=`echo "$*" | sed -E 's/(.*) >>.*/\1/'`
+raw_file=`echo "$*" | sed -nE 's/.* >>(.*)/\1/p'`
+
 if [ $rainbow = 1 ]; then
     message=`color_rainbow "$message"`
 fi
 
-privmsg $chan "$message"
+if [ -n "$raw_file" ]; then
+    echo "$message" >> `file_chan $chan "$raw_file"`
+else
+    privmsg $chan "$message"
+fi

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+. lib/cmd.sh
+. lib/file.sh
+
+output=''
+
+for raw_file in $@; do
+    file=`file_chan $chan "$raw_file"`
+    output="$output`cat $file | tr '\n' '|'`"
+done
+
+privmsg $chan "$output"

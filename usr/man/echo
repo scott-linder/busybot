@@ -1,1 +1,1 @@
-echo [-r] <message...> | echo arguments back | -r rainbow
+echo [-r] <message...> >> <file> | echo arguments back or into a file | -r rainbow
