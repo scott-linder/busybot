@@ -13,8 +13,14 @@ while true; do
     esac
 done
 
-message=`echo "$*" | sed -E 's/(.*) >>.*/\1/'`
-raw_file=`echo "$*" | sed -nE 's/.* >>(.*)/\1/p'`
+message="$1"; shift
+raw_file=''
+while [ $# != 0 ]; do
+    case "$1" in
+        '>>') raw_file="$2"; shift 2;;
+        *) message="$message $1"; shift;;
+    esac
+done
 
 if [ $rainbow = 1 ]; then
     message=`color_rainbow "$message"`
