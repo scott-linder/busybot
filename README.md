@@ -20,14 +20,11 @@ in `etc/config.sh` which is sourced at startup; the default configuration is:
 Commands are prefixed with a `$` and the first word (presently any group of
 non-space characters) after this prefix is used as the command (`$cmd`).
 
-If the file `bin/$cmd` exists and is executable, it is run with the following
-arguments:
-
-1. Nickname
-2. Channel
-3. Rest
-
-Here "rest" includes all text after the command in the source message.
+If the file `bin/$cmd` exists and is executable, it is run with the positional
+arguments `$nick`, `$chan`, and then the remaining arguments represent
+arguments to the command itself (all arguments after the command in the
+source message). Presently there is no support for shell quoting: the arguments
+are all split on whitespace.
 
 In the event of a non-channel message (e.g. a private message sent only to the
 bot) the nickname and channel may be the same; hence, it is always correct to
@@ -37,8 +34,10 @@ In order to send a string to the IRC server, it should be appended to `var/out`.
 
 As a convenience, if your command is written in `sh` as well you can source
 `lib/cmd.sh` which will assign the positional parameters to `$nick`, `$chan`,
-and `$rest` respectively, as well as make the functions `log`, `err`, `out`,
-and `privmsg` available.
+shifting them out of the way such that the "real" arguments to the command
+begin at `$1` as one expects. If one also sets the variable `$opts` prior to
+sourcing `lib/cmd.sh`, the rest of the arguments will be run through `getopt`.
+It will also make available the functions `log`, `err`, `out`, and `privmsg`.
 
 ## Running ##
 

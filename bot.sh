@@ -37,7 +37,7 @@ cat var/in | while read input; do
         if [ -n "$cmd" ]; then
             rest=`echo $input | sed -nE 's/^[^ ]+ [^ ]+ [^ ]+ :?\\$[^ ]+ (.*)/\1/p'`
             if [ -f bin/$cmd -a -x bin/$cmd ]; then
-                bin/$cmd $nick $chan "$rest"
+                bin/$cmd $nick $chan $rest
             fi
         fi
     fi

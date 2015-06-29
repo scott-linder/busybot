@@ -1,5 +1,20 @@
 #!/bin/sh
 
+opts="r"
 . lib/cmd.sh
+. lib/color.sh
 
-privmsg $chan "$rest"
+rainbow=0
+while true; do
+    case "$1" in
+    -r) rainbow=1; shift;;
+    --) shift; break;;
+    esac
+done
+
+message="$*"
+if [ $rainbow = 1 ]; then
+    message=`color_rainbow "$message"`
+fi
+
+privmsg $chan "$message"
