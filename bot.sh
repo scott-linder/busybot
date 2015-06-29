@@ -22,7 +22,7 @@ out "USER $IRC_USER"
         out "JOIN $chan"
     done
 
-cat var/in | while read input; do
+cat var/in | while read -r input; do
     log [in] $input
     input=`echo $input | tr -d '\r\n'`
     if echo "$input" | grep -q PING; then
@@ -37,7 +37,15 @@ cat var/in | while read input; do
         if [ -n "$cmd" ]; then
             rest=`echo $input | sed -nE 's/^[^ ]+ [^ ]+ [^ ]+ :?\\$[^ ]+ (.*)/\1/p'`
             if [ -f bin/$cmd -a -x bin/$cmd ]; then
-                bin/$cmd $nick $chan $rest
+                old_IFS=$IFS
+                # grep breaks each argument onto its own line
+                IFS=$'\n'
+                # grep applies quoting rules, then sed cleans up quoted
+                # arguments, replacing escapes and stripping quotes
+                bin/$cmd $nick $chan `echo "$rest" |
+                    egrep -o '"([^"]|\\\\")*"|\S+' |
+                    sed -E -e 's/^"(.*)"$/\1/' -e 's/\\\\"/"/g'`
+                IFS=$old_IFS
             fi
         fi
     fi
