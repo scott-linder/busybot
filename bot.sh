@@ -9,8 +9,8 @@ IRC_USER=${IRC_USER:-'sh localhost localhost :sh'}
 . lib/std.sh
 
 mkdir -p var
-rm var/in && mkfifo var/in || err failed to make in fifo
-rm var/out && mkfifo var/out || err failed to make out fifo
+rm -f var/in && mkfifo var/in || err failed to make in fifo
+rm -f var/out && mkfifo var/out || err failed to make out fifo
 
 tail -f var/out | nc $SERVER $PORT >var/in &
 
