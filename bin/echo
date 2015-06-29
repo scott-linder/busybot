@@ -21,7 +21,7 @@ if [ $rainbow = 1 ]; then
 fi
 
 if [ -n "$raw_file" ]; then
-    echo "$message" >> `file_chan $chan "$raw_file"`
+    echo "$message" >> `file_chan_file $chan "$raw_file"`
 else
     privmsg $chan "$message"
 fi

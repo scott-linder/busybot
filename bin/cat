@@ -6,7 +6,7 @@
 output=''
 
 for raw_file in $@; do
-    file=`file_chan $chan "$raw_file"`
+    file=`file_chan_file $chan "$raw_file"`
     output="$output`cat $file | tr '\n' '|'`"
 done
 

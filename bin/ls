@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. lib/cmd.sh
+. lib/file.sh
+
+dir=`file_chan_dir $chan`
+privmsg $chan "`ls $dir | paste -s -d' '`"
