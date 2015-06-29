@@ -1,6 +1,6 @@
 #!/bin/sh
 
-opts="r"
+opts='r'
 . lib/cmd.sh
 . lib/color.sh
 

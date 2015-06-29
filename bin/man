@@ -1,0 +1,32 @@
+#!/bin/sh
+
+opts='l'
+. lib/cmd.sh
+. lib/file.sh
+
+list=0
+while true; do
+    case "$1" in
+    -l) list=1; shift;;
+    --) shift; break;;
+    esac
+done
+
+if [ $list = 1 ]; then
+    privmsg $chan "topics: `ls usr/man/ | paste -s -d' '`"
+    exit
+fi
+
+if [ $# = 1 ]; then
+    topic=`file_sanitize_path "$1"`
+else
+    topic=man
+fi
+
+file=usr/man/$topic
+
+if [ -f $file ]; then
+    privmsg $chan "`cat $file`"
+else
+    privmsg $chan "unknown topic \"$topic\""
+fi
